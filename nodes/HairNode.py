@@ -1,4 +1,5 @@
 import os
+import gc
 
 from sympy.stats.sampling.sample_numpy import numpy
 
@@ -69,6 +70,8 @@ class LoadStableHairRemoverModel:
         _state_dict = torch.load(bald_model_path)
 
         bald_converter.load_state_dict(_state_dict, strict=False)
+        del _state_dict
+        gc.collect()
         bald_converter.to(device_type, dtype=weight_dtype)
         remove_hair_pipeline.register_modules(controlnet=bald_converter)
 
@@ -134,6 +137,9 @@ class LoadStableHairTransferModel:
         controlnet = ControlNetModel.from_unet(pipeline.unet).to(device_type)
         _state_dict = torch.load(control_model_path)
         controlnet.load_state_dict(_state_dict, strict=False)
+        del _state_dict
+        gc.collect()
+        
         controlnet.to(device_type, dtype=weight_dtype)
         pipeline.register_modules(controlnet=controlnet)
 
@@ -142,6 +148,8 @@ class LoadStableHairTransferModel:
         hair_encoder = RefHairUnet.from_config(pipeline.unet.config)
         _state_dict = torch.load(encoder_model_path)
         hair_encoder.load_state_dict(_state_dict, strict=False)
+        del _state_dict
+        gc.collect()
         hair_encoder.to(device_type, dtype=weight_dtype)
         pipeline.register_modules(reference_encoder=hair_encoder)
 
@@ -149,6 +157,8 @@ class LoadStableHairTransferModel:
         _state_dict = torch.load(adapter_model_path)
 
         hair_adapter.load_state_dict(_state_dict, strict=False)
+        del _state_dict
+        gc.collect()
 
         return pipeline,
 
