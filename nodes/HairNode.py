@@ -131,9 +131,6 @@ class LoadStableHairTransferModel:
                                                        requires_safety_checker=False,
                                                        ).to(device_type)
 
-        pipeline.enable_attention_slicing() # Cuts calculation memory in half
-        pipeline.enable_vae_slicing()
-
         controlnet = ControlNetModel.from_unet(pipeline.unet).to(device_type)
         _state_dict = torch.load(control_model_path)
         controlnet.load_state_dict(_state_dict, strict=False)
