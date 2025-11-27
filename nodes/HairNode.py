@@ -186,6 +186,9 @@ class ApplyHairRemover:
     CATEGORY = "hair/transfer"
 
     def apply(self, bald_model, images, seed, steps, strength, cfg=1.5):
+        bald_model.enable_vae_tiling()
+        bald_model.enable_vae_slicing()
+
         _images = []
         _masks = []
 
@@ -251,6 +254,7 @@ class ApplyHairTransfer:
     CATEGORY = "hair/transfer"
 
     def apply(self, model, images, bald_image, seed, steps, cfg, control_strength, adapter_strength):
+        model.enable_vae_slicing()
         _images = []
         _masks = []
 
