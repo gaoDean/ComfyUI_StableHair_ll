@@ -74,6 +74,12 @@ class StableHairPipeline(DiffusionPipeline, FromSingleFileMixin):
     def disable_vae_slicing(self):
         self.vae.disable_slicing()
 
+    def enable_vae_tiling(self):
+        self.vae.enable_tiling()
+
+    def disable_vae_tiling(self):
+        self.vae.disable_tiling()
+
     def enable_sequential_cpu_offload(self, gpu_id=0):
         if is_accelerate_available():
             from accelerate import cpu_offload

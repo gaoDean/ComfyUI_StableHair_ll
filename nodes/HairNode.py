@@ -255,6 +255,7 @@ class ApplyHairTransfer:
 
     def apply(self, model, images, bald_image, seed, steps, cfg, control_strength, adapter_strength):
         model.enable_vae_slicing()
+        model.enable_vae_tiling()
         _images = []
         _masks = []
 
